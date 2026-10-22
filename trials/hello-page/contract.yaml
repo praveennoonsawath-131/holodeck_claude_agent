@@ -1,2 +1,6 @@
-# Placeholder: see holodeck://docs/contracts for the format. Replace after a first run.
-{}
+workflow: hello_page
+contract_version: "1.0.0"
+
+skills:
+  required: []
+  optional: []
