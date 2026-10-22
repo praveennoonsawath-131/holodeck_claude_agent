@@ -2,5 +2,24 @@ workflow: hello_page
 contract_version: "1.0.0"
 
 skills:
-  required: []
-  optional: []
+  required:
+    - wavemaker-ui
+    - page_management
+  optional:
+    - markup
+    - component_metadata
+
+output:
+  - tool: execute_tool.platform_createWebPage
+  - tool: execute_tool.ui_applyChangesOnPageMarkup
+
+tools:
+  required:
+    - execute_tool
+    - load_skill
+    - platform_createWebPage
+    - ui_applyChangesOnPageMarkup
+  optional:
+    - get_tool_schema
+    - read_files
+  forbidden: []
