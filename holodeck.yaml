@@ -1,0 +1,4 @@
+version: 1
+suite:
+  name: Local Trials
+  description: Trials defined in a local Git repository
