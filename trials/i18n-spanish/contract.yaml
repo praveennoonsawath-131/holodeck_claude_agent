@@ -1,0 +1,93 @@
+workflow: i18n_Login
+contract_version: 1.0.0
+skills:
+  required:
+    - wavemaker-ui
+    - wavemaker-i18n
+    - binding
+    - markup
+    - javascript
+  optional: []
+knowledge:
+  - /catalog/actions/actions-list.md
+  - /catalog/components/wm-button/wm-button.md
+  - /catalog/components/wm-form-field/advanced-props.md
+  - /catalog/components/wm-form-field/wm-form-field.md
+  - /catalog/components/wm-label/wm-label.md
+  - /catalog/components/wm-table/advanced-props.md
+resources:
+  page:
+    - name: Login
+      path: src/main/webapp/pages/Login/Login.html
+      javascript:
+        - name: LoginScript
+          path: src/main/webapp/pages/Login/Login.js
+      variable:
+        - name: variableFile
+          path: src/main/webapp/pages/Login/Login.variables.json
+  variable:
+    - name: appVariable
+      path: src/main/webapp/app.variables.json
+  i18n:
+    - name: es
+      path: i18n/es.json
+    - name: en
+      path: i18n/en.json
+  file:
+    - name: wmProjectProperties
+      path: .wmproject.properties
+    - name: appJs
+      path: src/main/webapp/app.js
+input_context:
+  - resource: page.Login
+  - resource: i18n.es
+  - resource: i18n.en
+  - resource: file.appJs
+  - tool: read_files
+    match:
+      - regex: Login\.(js|variables\.json)
+output:
+  - resource: page.Login.variable.variableFile
+    operation: UPDATE
+  - resource: variable.appVariable
+    operation: UPDATE
+  - resource: page.Login.javascript.LoginScript
+    operation: UPDATE
+  - resource: file.appJs
+    operation: UPDATE
+  - tool: execute_tool.platform_addLocale
+  - tool: execute_tool.platform_updateLocaleMessages
+    match:
+      - en
+      - es
+  - tool: execute_tool.ui_applyChangesOnPageMarkup
+    match:
+      - regex: bind:appLocale\.\w+
+      - pageName: Login
+  - tool: edit_file_content
+    match:
+      - regex: App\.selectedLocale\s*=\s*['"]es['"]
+      - regex: App\.onAppVariablesReady
+tools:
+  required:
+    - edit_file_content
+    - execute_tool
+    - find_files_by_glob
+    - get_tool_schema
+    - grep_in_files
+    - load_skill
+    - platform_addLocale
+    - platform_checkExistenceOfLabelKeys
+    - platform_getAllPageNames
+    - platform_getConfiguredLocales
+    - platform_getProjectUserLocaleMessages
+    - platform_getSystemLocales
+    - platform_updateLocaleMessages
+    - read_files
+    - ui_applyChangesOnPageMarkup
+    - ui_getLocalizableMessages
+  optional:
+    - get_file_diagnostics
+    - write_file
+  forbidden:
+    - delete_file
