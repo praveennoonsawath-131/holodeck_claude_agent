@@ -1,2 +1,28 @@
 name: Java service pet and tags orchestration
 platform_type: WEB
+preview_page_name: Main
+validators:
+  - name: Service returns pets
+    type: PLAYWRIGHT_PYTHON
+    description: getPetsWithTags answers over HTTP with a non-empty list for a tag that has pets
+    test_file: validators/test_orchestration.py
+    tests: [test_service_returns_a_list_of_pets]
+    timeout_seconds: 90
+  - name: Pets have id, name, status and tags
+    type: PLAYWRIGHT_PYTHON
+    description: Every returned pet has id, name, status and a list of tag names
+    test_file: validators/test_orchestration.py
+    tests: [test_each_pet_has_id_name_status_and_tags]
+    timeout_seconds: 90
+  - name: Result matches the petstore data
+    type: PLAYWRIGHT_PYTHON
+    description: The pets, statuses and tags returned equal what petstore findPetsByTags returns for the same tag
+    test_file: validators/test_orchestration.py
+    tests: [test_pets_and_tags_match_the_petstore_data]
+    timeout_seconds: 90
+  - name: Unknown tag gives an empty list
+    type: PLAYWRIGHT_PYTHON
+    description: A tag with no pets returns an empty list, not an error
+    test_file: validators/test_orchestration.py
+    tests: [test_unknown_tag_returns_an_empty_list]
+    timeout_seconds: 90
