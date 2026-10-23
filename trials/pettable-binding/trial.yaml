@@ -2,18 +2,24 @@ name: PetTable datatable binding
 platform_type: WEB
 preview_page_name: PetTable
 validators:
-  - name: PetTable page loads
+  - name: Pet table is visible
     type: PLAYWRIGHT_PYTHON
-    description: The PetTable page opens without console or HTTP errors
-    page_name: PetTable
-    checks:
-      - check: PAGE_LOADS
-  - name: Pet table has data
-    type: PLAYWRIGHT_PYTHON
-    description: The table on the PetTable page is visible, has its columns and shows at least one pet row
+    description: The PetTable page renders a data table
+    test_file: validators/test_pettable.py
+    tests: [test_table_is_visible]
     page_name: PetTable
     timeout_seconds: 90
-    checks:
-      - check: DATA_TABLE_LOADS
-        expected_columns: [Id, Name, Status]
-        minimum_rows: 1
+  - name: Pet table shows rows
+    type: PLAYWRIGHT_PYTHON
+    description: The table has at least one pet row, not "No data found"
+    test_file: validators/test_pettable.py
+    tests: [test_table_shows_pet_rows]
+    page_name: PetTable
+    timeout_seconds: 90
+  - name: Table is bound to findPetsByTags
+    type: PLAYWRIGHT_PYTHON
+    description: The page calls the petstore findPetsByTags API and the call succeeds
+    test_file: validators/test_pettable.py
+    tests: [test_table_calls_petstore_find_by_tags]
+    page_name: PetTable
+    timeout_seconds: 90
