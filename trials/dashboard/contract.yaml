@@ -1,0 +1,32 @@
+workflow: dashboard_page
+contract_version: "1.0.0"
+
+skills:
+  required:
+    - wavemaker-ui
+    - page_management
+  optional:
+    - markup
+    - component_metadata
+    - variables
+    - binding
+
+output:
+  - tool: execute_tool.platform_createWebPage
+    match: {pageName: Dashboard}
+  - tool: execute_tool.ui_applyChangesOnPageMarkup
+    match: {pageName: Dashboard}
+
+tools:
+  required:
+    - execute_tool
+    - load_skill
+    - platform_createWebPage
+    - ui_applyChangesOnPageMarkup
+  optional:
+    - get_tool_schema
+    - read_files
+    - get_file_diagnostics
+    - ui_getPageStructure
+    - ui_createNonApiAwareVariable
+  forbidden: []
