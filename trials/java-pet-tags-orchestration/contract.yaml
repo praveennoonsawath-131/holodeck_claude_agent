@@ -1,0 +1,57 @@
+workflow: java_pet_tags_orchestration
+contract_version: "1.0.0"
+
+# The prompt asks for a Java service only: create it, implement it, compile.
+# Required entries are what every model must do; the rest is optional.
+
+skills:
+  required:
+    - wavemaker-backend                     # base skill for backend work
+    - create-java-service                   # the service is created
+    - update-java-service                   # the generated stub is edited to implement the logic
+  optional:
+    - explore-api                           # skipped when the prompt already names findPetsByTags
+    - explore-codebase
+    - wavemaker-security
+    - wavemaker-ui
+
+resources:
+  java_service:
+    - name: getPetsWithTags
+      path: services/getPetsWithTags/**     # the service subtree: designtime, Java class, model class
+
+output:
+  - resource: java_service.getPetsWithTags
+    operation: CREATE
+    match:
+      - getPetsWithTags
+  - tool: execute_tool.platform_createNewJavaService
+    match:
+      - getPetsWithTags
+  - tool: execute_tool.platform_compile
+
+tools:
+  required:
+    - load_skill
+    - execute_tool
+    - platform_createNewJavaService
+    - platform_compile
+  optional:
+    - read_files
+    - write_file
+    - edit_file_content
+    - replace_in_files
+    - grep_in_files
+    - find_files_by_glob
+    - get_file_diagnostics
+    - get_tool_schema
+    - fork
+    - invoke_agent
+    - platform_getAllServiceIds
+    - platform_getServiceDetails
+    - platform_getDefinitionInformation
+    - platform_isAuthenticationEnabled
+    - platform_deleteService
+  forbidden:                                # the prompt says not to change any page
+    - platform_createWebPage
+    - ui_applyChangesOnPageMarkup
