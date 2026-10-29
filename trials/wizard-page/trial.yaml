@@ -1,0 +1,24 @@
+name: Wizard page
+platform_type: WEB
+preview_page_name: Wizard
+validators:
+  - name: Wizard page loads
+    type: PLAYWRIGHT_PYTHON
+    description: The Wizard page opens without console or network errors
+    page_name: Wizard
+    checks:
+      - check: PAGE_LOADS
+  - name: Wizard heading is shown
+    type: PLAYWRIGHT_PYTHON
+    description: The page shows the "Sign-up Wizard" heading
+    page_name: Wizard
+    checks:
+      - check: TEXT_VISIBLE
+        expected_text: Sign-up Wizard
+  - name: Next button is shown
+    type: PLAYWRIGHT_PYTHON
+    description: The first step has a "Next" button
+    page_name: Wizard
+    checks:
+      - check: TEXT_VISIBLE
+        expected_text: Next
